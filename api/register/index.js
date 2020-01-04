@@ -5,6 +5,6 @@ const router = expres.Router();
 const controller = require('./register.controller');
 const multerUpload = require('../../middleware/multer');
 
-router.post('/:seller', multerUpload, controller.registerSellor);
+router.post('/:user', multerUpload, controller.registerPortfolio);
 
 module.exports = router;

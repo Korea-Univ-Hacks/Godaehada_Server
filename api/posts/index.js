@@ -8,10 +8,10 @@ const router = express.Router();
 router.get('/', controller.postList);
 
 router.get('/test', async () => User.create({
-    email: 'asdf',
-    password: 'asdf',
-    nickname: 'asdf',
-    thumbnail: 'asdf',
+    email: 'jominjimail@hanyang.ac.kr',
+    password: '1234',
+    nickname: 'minij',
+    thumbnail: 'https://korea-hack-dev.s3-ap-northeast-1.amazonaws.com/607f9f8a-b6d4-49ff-83ae-80fcc2596a06.jpeg',
 }));
 
 module.exports = router;
