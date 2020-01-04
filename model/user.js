@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     profileThumbnail: { type: String, required: false},
     thumbnail: { type: String, required: false },
     portfolios: [{ type: ObjectId, required: false, ref: Portfolio }],
+    seller: { type: Boolean, default: false },
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
 module.exports = mongoose.model('User', userSchema);

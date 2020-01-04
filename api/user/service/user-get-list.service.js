@@ -32,8 +32,8 @@ const exec = async (query) => {
   }
 
   const findResult = await User.find({})
-    .exists('thumbnail', true)
-    .select('thumbnail nickname')
+    .exists('seller', true)
+    .select('nickname')
     .populate({
       path: 'portfolios',
       select: 'tag category portfolioThumbnail',

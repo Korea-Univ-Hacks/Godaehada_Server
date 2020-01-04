@@ -31,7 +31,7 @@ const exec = async (params, files, body) => {
             newPortfolioId,
         ];
 
-        await User.findOneAndUpdate({ _id: userId }, { portfolios: newPortfolios });
+        await User.findOneAndUpdate({ _id: userId }, { $set: { seller: true }}, { portfolios: newPortfolios });
 
         return { success: true };
     } catch (e) {
