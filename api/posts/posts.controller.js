@@ -8,7 +8,7 @@ module.exports = {
         const { query } = req;
 
         return Service.list(query)
-            .then(responseWrapper(res))
-            .catch(errorWrapper(res));
+            .then((result) => responseWrapper(req.method, result, res))
+            .catch((err) => errorWrapper(err.message, res));
     },
-}
+};
