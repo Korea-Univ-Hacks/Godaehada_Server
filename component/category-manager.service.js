@@ -1,4 +1,5 @@
 const _ = require('lodash');
+
 const LRUCache = require('lru-cache');
 
 const cache = new LRUCache({
@@ -10,41 +11,33 @@ const CATEGORY_KEY = 'CATEGORY_KEY';
 const categoryModel = require('../model/category');
 
 const initCategory = async () => {
-  const findResult = await categoryModel.find({})
+  if (cache.has(CATEGORY_KEY) === false) {
+    const findResult = await categoryModel.find({})
 
-  cache.set(CATEGORY_KEY, findResult)
+    cache.set(CATEGORY_KEY, findResult)
+  }
+
+  return cache.get(CATEGORY_KEY);
 }
 
-const getCategoryKey = async (value) => {
-  if (cache.has(CATEGORY_KEY) === false) {
-    await initCategory();
-  };
-
-  return cache.get(CATEGORY_KEY).map(item => {
+const getCategoryKey = (categories, value) => {
+  return categories.map(item => {
     if (item.name === value) {
       return item.type;
     }
   });
 };
 
-const getCategoryValue = async (key) => {
-  if (cache.has(CATEGORY_KEY) === false) {
-    await initCategory();
-  };
-
-  return cache.get(CATEGORY_KEY).map(item => {
+const getCategoryValue = (categories, key) => {
+  return categories.map(item => {
     if (item.type === key) {
       return item.name;
     }
   });
 };
 
-const getTagKey = async (value) => {
-  if (cache.has(CATEGORY_KEY) === false) {
-    await initCategory();
-  };
-
-  return cache.get(CATEGORY_KEY).map(item => {
+const getTagKey = (categories, value) => {
+  return categories.map(item => {
     let type;
     item.tags.forEach(tag => {
       if (tag.name === value) {
@@ -56,12 +49,8 @@ const getTagKey = async (value) => {
   });
 };
 
-const getTagValue = async (key) => {
-  if (cache.has(CATEGORY_KEY) === false) {
-    await initCategory();
-  };
-
-  return cache.get(CATEGORY_KEY).map(item => {
+const getTagValue = (categories, key) => {
+  return categories.map(item => {
     let value;
     item.tags.forEach(tag => {
       if (tag.type === key) {
@@ -77,5 +66,6 @@ module.exports = {
   getCategoryKey,
   getCategoryValue,
   getTagKey,
-  getTagValue
+  getTagValue,
+  initCategory
 };

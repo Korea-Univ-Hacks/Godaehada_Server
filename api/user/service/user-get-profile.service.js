@@ -1,8 +1,12 @@
 const User = require('../../../model/user');
 
-const { getTagValue } = require('../../../component/category-manager.service');
+const { getTagValue, initCategory } = require('../../../component/category-manager.service');
+
+const _ = require('lodash');
 
 const exec = async (params) => {
+  const cacheCategories = await initCategory();
+
   const { userId } = params;
 
   const findResult = await User.find({ _id: userId })
@@ -16,17 +20,10 @@ const exec = async (params) => {
       select: 'tag portfolioThumbnail',
     });
 
-  let cnt = 1;
-
-  await findResult.forEach(item => {
-    item.portfolios.forEach(async portfolio => {
-      const tagValue = await getTagValue(portfolio.tag);
+  findResult.forEach(item => {
+    item.portfolios.forEach(portfolio => {
+      const tagValue = getTagValue(cacheCategories, portfolio.tag);
       portfolio.tag = tagValue[0];
-      cnt++
-
-      while(cnt === findResult.length) {
-        return;
-      }
     })
   })
 

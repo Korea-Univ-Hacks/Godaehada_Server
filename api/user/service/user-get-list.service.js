@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const User = require('../../../model/user');
 
-const { getCategoryKey, getCategoryValue, getTagKey, getTagValue } = require('../../../component/category-manager.service');
+const { getCategoryKey, getCategoryValue, getTagKey, getTagValue, initCategory } = require('../../../component/category-manager.service');
 
 /**
  * 판매자 리스트 조회
@@ -11,33 +11,38 @@ const { getCategoryKey, getCategoryValue, getTagKey, getTagValue } = require('..
  * @returns {Promise<Query|Promise>}
  */
 const exec = async (query) => {
+  const cacheCategories = await initCategory();
+
   let { category, tag } = query;
 
-  const matchCondition = {};
+  const matchCondition = {
+    portfolioThumbnail: {
+      $exists: true
+    }
+  };
 
   if (_.isNil(tag) === false) {
-    const tagKey = await getTagKey(tag);
+    const tagKey = getTagKey(cacheCategories, tag);
     matchCondition.tag = tagKey;
   }
 
   if (_.isEmpty(category) === false) {
-    const categoryKey = await getCategoryKey(category);
+    const categoryKey = getCategoryKey(cacheCategories, category);
     matchCondition.category = categoryKey;
   }
 
   const findResult = await User.find({})
-    .exists('thumbnail', true)
     .select('thumbnail nickname')
     .populate({
       path: 'portfolios',
-      select: 'tag category',
+      select: 'tag category portfolioThumbnail',
       match: matchCondition
     });
 
-  await findResult.forEach(item => {
-    item.portfolios.forEach(async portfolio => {
-      const categoryValue = await getCategoryValue(portfolio.category);
-      const tagValue = await getTagValue(portfolio.tag);
+  findResult.forEach(item => {
+    item.portfolios.forEach(portfolio => {
+      const categoryValue = getCategoryValue(cacheCategories, portfolio.category);
+      const tagValue = getTagValue(cacheCategories, portfolio.tag);
       portfolio.category = categoryValue[0];
       portfolio.tag = tagValue[0];
     })
