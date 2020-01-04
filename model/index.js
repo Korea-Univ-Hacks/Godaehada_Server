@@ -5,7 +5,7 @@ module.exports = () => {
         if (process.env.NODE_ENV !== 'production') {
             mongoose.set('debug', true);
         }
-        const HOST = 'mongodb://localhost/my_database';
+        const HOST = 'mongodb://localhost:27017/my_database';
         mongoose.connect(HOST, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
             if (err) {
                 console.log('mongodb connection error', err);

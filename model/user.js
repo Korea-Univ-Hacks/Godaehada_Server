@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Photofolio = require('./photofolio');
+const Portfolio = require('./portfolio');
 
 const { ObjectId } = mongoose.Schema.Types;
 
@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
     },
     password: { type: String, required: true, trim: true },
     nickname: String,
-    category: [{ type: ObjectId, required: false, ref: Photofolio }],
+    thumbnail: { type: String, required: true },
+    portfolios: [{ type: ObjectId, required: false, ref: Portfolio }],
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
 module.exports = mongoose.model('User', userSchema);
