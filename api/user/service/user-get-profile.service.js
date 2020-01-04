@@ -8,11 +8,12 @@ const exec = async (params) => {
   const findResult = await User.find({ _id: userId })
     .select([
       'profileThumbnail',
-      'nickname'
+      'nickname',
+      'description'
     ])
     .populate({
       path: 'portfolios',
-      select: 'tag',
+      select: 'tag portfolioThumbnail',
     });
 
   let cnt = 1;

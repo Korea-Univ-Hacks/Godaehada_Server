@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
     },
     password: { type: String, required: true, trim: true },
     nickname: String,
+    description: { type: String, required: true},
     profileThumbnail: { type: String, required: false},
     thumbnail: { type: String, required: false },
     portfolios: [{ type: ObjectId, required: false, ref: Portfolio }],
