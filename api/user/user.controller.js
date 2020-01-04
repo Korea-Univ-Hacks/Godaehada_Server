@@ -17,4 +17,10 @@ module.exports = {
       .then(result => responseWrapper(req.method, result, res))
       .catch(err => errorWrapper(err.message, res));
   },
+  createUser(req, res) {
+    const { body } = req;
+    return service.createUser(body)
+      .then(result => responseWrapper(req.method, result, res))
+      .catch(err => errorWrapper(err.message, res));
+  },
 };
