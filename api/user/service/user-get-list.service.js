@@ -32,6 +32,7 @@ const exec = async (query) => {
   }
 
   const findResult = await User.find({})
+    .exists('thumbnail', true)
     .select('thumbnail nickname')
     .populate({
       path: 'portfolios',
