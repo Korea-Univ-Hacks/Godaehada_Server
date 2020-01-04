@@ -2,16 +2,18 @@ const mongoose = require('mongoose');
 const Portfolio = require('../../../model/portfolio');
 const User = require('../../../model/user');
 
-const { getCategoryKey, getTagKey } = require('../../../component/category-manager.service');
+const { getCategoryKey, getTagKey, initCategory } = require('../../../component/category-manager.service');
 
 const exec = async (params, files, body) => {
     try {
+        const cacheCategories = await initCategory();
+
         const { userId } = params;
         const { location } = files[0];
         const { category, tag } = body;
 
-        const categoryKey = await getCategoryKey(category);
-        const tagKey = await getTagKey(tag);
+        const categoryKey = getCategoryKey(cacheCategories, category);
+        const tagKey = getTagKey(cacheCategories, tag);
 
         const result = await Portfolio.create({
             category: categoryKey[0],
