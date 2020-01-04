@@ -7,7 +7,7 @@ const portfolioSchema = new mongoose.Schema({
     tag: { type: String, required: true },
     like: { type: Number, required: false, default: 0 },
     zzim: { type: Boolean, required: false, default: false },
-    url: { type: String, required: true },
+    portfolioThumbnail: { type: String, required: true },
     commnets: { type: [Schema.Types.Mixed], required: false, default: [] },
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 

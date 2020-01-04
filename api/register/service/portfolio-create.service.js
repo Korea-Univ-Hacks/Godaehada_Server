@@ -10,7 +10,7 @@ const exec = async (params, files, body) => {
         const result = await Portfolio.create({
             category,
             tag,
-            url: location,
+            portfolioThumbnail: location,
         });
         const { _id } = result;
         const newPortfolioId = mongoose.Types.ObjectId(_id);
