@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     },
     password: { type: String, required: true, trim: true },
     nickname: String,
-    thumbnail: { type: String, required: true },
+    thumbnail: { type: String, required: false },
     portfolios: [{ type: ObjectId, required: false, ref: Portfolio }],
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } });
 
