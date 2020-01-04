@@ -11,4 +11,11 @@ module.exports = {
             .then((result) => responseWrapper(req.method, result, res))
             .catch((err) => errorWrapper(err.message, res));
     },
+    registerMe(req, res) {
+        const { params ={}, files = [] } = req;
+        console.log(params, files);
+        return Service.edit(params, files)
+            .then((result) => responseWrapper(req.method, result, res))
+            .catch((err) => errorWrapper(err.message, res));
+    }
 };

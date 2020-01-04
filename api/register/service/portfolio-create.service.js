@@ -35,10 +35,22 @@ const exec = async (params, files, body) => {
 
         return { success: true };
     } catch (e) {
-        console.log(e)
-    }
+        throw Error(e);
+    };
 };
+
+const edit = async (params, files) => {
+    try{
+    const { userId } = params;
+    await User.findOneAndUpdate({ _id: userId }, { profileThumbnail: files[0].location, thumbnail: files[1].location, });
+    return { success: true };
+    }catch(e){
+        console.log(e);
+        throw Error(e);
+    };
+}
 
 module.exports = {
     exec,
+    edit,
 };
