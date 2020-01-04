@@ -11,5 +11,5 @@ const errorWrapper = (err, res) => {
 };
 
 module.exports = {
-    errorWrapper
+    errorWrapper,
 };

@@ -5,7 +5,6 @@ const { errorWrapper } = require('../../component/error');
 
 module.exports = {
     registerPortfolio(req, res) {
-        console.log(req.params, req.files, req.body);
         const { params = {}, files = [], body } = req;
 
         return Service.create(params, files, body)
